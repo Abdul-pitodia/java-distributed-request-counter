@@ -1,0 +1,1 @@
+### For a description of the project, please check the ```thought-process.md``` file present in the repo
