@@ -2,7 +2,7 @@ FROM openjdk:17-slim as builder
 
 WORKDIR /app
 
-COPY target/*.jar app.jar
+COPY *.jar app.jar
 
 
 FROM openjdk:17-slim
