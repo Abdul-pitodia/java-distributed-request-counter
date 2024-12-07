@@ -1,5 +1,7 @@
 # Thought Process and Implementation Overview
 
+![Architecture Overview](design.png)
+
 ## Overview
 
 In this challenge, the goal was to implement a system which can track the count of unique received IDs within each minute, and provide configurable options to store the count either in logs or stream the data to a distributed service. 
