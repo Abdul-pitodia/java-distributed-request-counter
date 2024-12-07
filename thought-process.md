@@ -39,8 +39,8 @@ The application is fully scalable, and can work in a distributed environment, an
 
 - I have provided a ready to run docker compose file ```docker-compose.yml``` that can be used to spin up 2 instances of the application, along with Redis and Kafka containers
 - The compose file exposes configuration variables through the ```environment``` property and sets some defaults on each of the application.
-- By default, ```APP_COUNT_SUBMITTER_TYPE``` is set to ```POST``` which means that it will use POST extension to submit the endpoint with the count
-- ```APP_COUNT_PROCESSOR_TYPE``` is set to Kafka, which will stream the counts to the kafka container
+- By default, ```APP_COUNT_SUBMITTER_TYPE``` is set to ```POST``` (also supports GET) which means that it will use POST extension to submit the endpoint with the count
+- ```APP_COUNT_PROCESSOR_TYPE``` is set to Kafka (also supports log), which will stream the counts to the kafka container
 - To run the docker compose file, simply run ```docker-compose up --build ``` command, it will build the image from current Dockerfile
 - To test the APIs, I have provided a postman_collection.json which has the endpoints for the two instances
 - An executable jar file is also added
