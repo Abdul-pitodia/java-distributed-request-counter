@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper:3.4.6
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+    networks:
+      - kafka-network
+
+  kafka:
+    image: wurstmeister/kafka:latest
+    container_name: kafka
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      KAFKA_DELETE_TOPIC_ENABLE: 'true'
+      KAFKA_LISTENERS: PLAINTEXT://kafka:9093
+    depends_on:
+      - zookeeper
+    ports:
+      - "9093:9093"
+    expose:
+      - "9093"
+    networks:
+      - kafka-network
+
+  redis:
+    image: redis:latest
+    container_name: redis-container
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    networks:
+      - app-network
+
+  app1:
+    container_name: app-instance-1
+    build: .
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      KAFKA_HOST_SPRING: kafka
+      KAFKA_PORT_SPRING: 9093
+      APP_COUNT_SUBMITTER_TYPE: POST
+      APP_COUNT_PROCESSOR_TYPE: kafka
+    depends_on:
+      - redis
+      - kafka
+    networks:
+      - app-network
+      - kafka-network
+
+  app2:
+    container_name: app-instance-2
+    build: .
+    ports:
+      - "8082:8080"
+    environment:
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      KAFKA_HOST_SPRING: kafka
+      KAFKA_PORT_SPRING: 9093
+      APP_COUNT_SUBMITTER_TYPE: POST
+      APP_COUNT_PROCESSOR_TYPE: kafka
+    depends_on:
+      - redis
+      - kafka
+    networks:
+      - app-network
+      - kafka-network
+
+networks:
+  app-network:
+    driver: bridge
+  kafka-network:
+    driver: bridge

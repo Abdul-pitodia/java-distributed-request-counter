@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.function.Function;
 
-@Service
 public class LogBasedUniqueCountProcessor implements UniqueCountProcessor{
 
     Logger logger = LoggerFactory.getLogger(LogBasedUniqueCountProcessor.class);
@@ -17,11 +16,8 @@ public class LogBasedUniqueCountProcessor implements UniqueCountProcessor{
     @Override
     public void processUniqueRequestCounts(SetOperations<String, Integer> setOps, Function<LocalDateTime, String> keyExtractor) {
 
-        LocalDateTime previousMinute = LocalDateTime.now(ZoneOffset.UTC).minusMinutes(1).withSecond(0).withNano(0);
-        String previousMinuteKey = keyExtractor.apply(previousMinute);
+        Long uniqueRequestsCount = fetchCurrentUniqueRequestCount(setOps, keyExtractor);
 
-        Long uniqueRequestsCount = setOps.size(previousMinuteKey);
-
-        logger.info("Unique requests processed for the minute {} : {}", previousMinute, uniqueRequestsCount);
+        logger.info("Unique requests processed for the last minute : {}", uniqueRequestsCount);
     }
 }
