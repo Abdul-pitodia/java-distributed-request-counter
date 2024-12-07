@@ -37,6 +37,7 @@ The application is fully scalable, and can work in a distributed environment, an
 
 ### Testing Steps
 
+- Please take a clone of the repository and follow the below steps to test the application
 - I have provided a ready to run docker compose file ```docker-compose.yml``` that can be used to spin up 2 instances of the application, along with Redis and Kafka containers
 - The compose file exposes configuration variables through the ```environment``` property and sets some defaults on each of the application.
 - By default, ```APP_COUNT_SUBMITTER_TYPE``` is set to ```POST``` (also supports GET) which means that it will use POST extension to submit the endpoint with the count
