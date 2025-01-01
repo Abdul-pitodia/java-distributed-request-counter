@@ -10,7 +10,7 @@ In this challenge, the goal was to implement a system which can track the count 
 The application is fully scalable, and can work in a distributed environment, and can support a high number of requests throughput, due to the design implementations.
 
 ### High Level Design
-- The app is a Java based application which uses Spring Boot to expose API endpoints ```/api/verve/accept``` which accepts an integer ```id``` as a query parameter and also accepts optional ```endpoint``` parameter, which is used to submit the count of unique received requests in the current minute. Basic error handling on the endpoints is done to accept valid inputs only.
+- The app is a Java based application which uses Spring Boot to expose API endpoints ```/api/accept``` which accepts an integer ```id``` as a query parameter and also accepts optional ```endpoint``` parameter, which is used to submit the count of unique received requests in the current minute. Basic error handling on the endpoints is done to accept valid inputs only.
 - When a request comes to the endpoint, the parameters are passed, and sent to the ```RequestProcessorService``` which then creates a Redis Key based on the current UTC time
 - The current UTC time is same for multiple instances, so any request coming from a load balancer on any instance will produce the same key for the current UTC minute
 - Then, for the same key, a Redis Set is used to add the id parameter to the set. Since Redis sets work like conventional Sets, there are no duplicates, even if multiple instances store the same id in the same redis key
