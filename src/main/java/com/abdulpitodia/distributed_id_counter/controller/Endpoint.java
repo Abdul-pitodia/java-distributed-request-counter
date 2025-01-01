@@ -22,7 +22,7 @@ public class Endpoint {
     @Autowired
     private RequestProcessorService requestProcessorService;
 
-    @GetMapping("/api/verve/accept")
+    @GetMapping("/api/accept")
     @ResponseBody()
     public ResponseEntity<String> acceptRequest(
             @RequestParam(name = "id") @Positive(message = "The id parameter must be a positive integer") Integer id,
